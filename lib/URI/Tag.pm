@@ -39,7 +39,7 @@ sub title {
 	if (!$self->_html) {
 		$self->_html($self->html);
 	}
-	$self->_html =~ m|<title>(.*?)</title>|im;
+	$self->_html =~ m|<title.*?>(.*?)</title>|im;
 	$self->_title($1);
 	return $self->_title;
 }
