@@ -12,7 +12,7 @@ our $VERSION = '0.01';
 use URI;
 use LWP::UserAgent;
 
-__PACKAGE__->mk_accessors(qw/ uri _html _title /);
+__PACKAGE__->mk_accessors(qw/ uri useragent _html _title _h1 /);
 
 sub new {
 	my ($class, $uri) = @_;
@@ -25,6 +25,7 @@ sub new {
 			$self->uri(URI->new($uri));
 		}
 	}
+	$self->useragent("URI::Tag/$VERSION");
 	return $self;
 }
 
