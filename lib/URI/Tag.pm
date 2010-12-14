@@ -10,7 +10,6 @@ use Carp qw/ croak /;
 our $VERSION = '0.01';
 
 use URI;
-use LWP::Simple qw/ get /;
 use LWP::UserAgent;
 
 __PACKAGE__->mk_accessors(qw/ uri _html _title /);
@@ -45,12 +44,12 @@ sub title {
 }
 sub html {
 	my $self = shift;
-	my $ua = LWP::UserAgent->new;
-	$ua->agent("URI::Tag/$VERSION");
-	my $req = HTTP::Request->new;
-	$req->method('GET');
-	$req->uri($self->uri);
-	my $res = $ua->request($req);
+	my $ua = LWP::UserAgent->new(
+		agent   => "URI::Tag/$VERSION",
+		timeout => 60,
+	);
+	$ua->env_proxy;
+	my $res = $ua->get($self->uri);
 	unless ($res->is_success) {
 		croak "fetch html failed.[".$res->status_line."]";
 	}
